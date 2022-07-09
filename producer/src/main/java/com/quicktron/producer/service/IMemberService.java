@@ -3,6 +3,7 @@ package com.quicktron.producer.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.quicktron.producer.domain.Member;
+import com.quicktron.producer.dto.RegisterDTO;
 
 /**
  * <p>
@@ -14,4 +15,5 @@ import com.quicktron.producer.domain.Member;
  */
 public interface IMemberService extends IService<Member> {
 
+    void registerByTel(RegisterDTO registerDTO);
 }
