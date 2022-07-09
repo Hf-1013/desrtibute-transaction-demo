@@ -29,9 +29,8 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
     public void registerByTel(RegisterDTO registerDTO) {
         Member member = new Member();
         BeanUtils.copyProperties(registerDTO, member);
-
         //保存用户
-
+        save(member);
         //添加优惠券，这里使用mq消息异步的方式来添加优惠券
 
     }
