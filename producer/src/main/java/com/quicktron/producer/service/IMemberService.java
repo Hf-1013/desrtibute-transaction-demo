@@ -15,5 +15,5 @@ import com.quicktron.producer.dto.RegisterDTO;
  */
 public interface IMemberService extends IService<Member> {
 
-    void registerByTel(RegisterDTO registerDTO);
+    void registerByTel(RegisterDTO registerDTO) throws Exception;
 }

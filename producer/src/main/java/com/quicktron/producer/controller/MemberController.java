@@ -36,7 +36,7 @@ public class MemberController {
     }
 
     @PostMapping("/register-by-tel")
-    public CommonResponse<Object> registerByTel(@RequestBody @Validated RegisterDTO registerDTO){
+    public CommonResponse<Object> registerByTel(@RequestBody @Validated RegisterDTO registerDTO) throws Exception {
         memberService.registerByTel(registerDTO);
         return CommonResponse.success();
     }
