@@ -2,6 +2,7 @@ package com.quicktron.producer.service.impl;
 
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.quicktron.producer.config.TransactionProduce;
 import com.quicktron.producer.domain.Member;
 import com.quicktron.producer.dto.RegisterDTO;
 import com.quicktron.producer.listener.TransactionListenerImpl;
@@ -34,6 +35,9 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
     @Autowired
     private RocketMQTemplate rocketMQTemplate;
 
+    @Autowired
+    private TransactionProduce transactionProduce;
+
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -50,25 +54,8 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
         producer.setTransactionListener(new TransactionListenerImpl());
         // 启动生产者
         producer.start();
-    
-        // 发送10条消息
-        for (int i = 0; i < 10; i++) {
-            try {
-                Message msg = new Message("TransactionTopic", "", ("Hello RocketMQ Transaction Message" + i).getBytes(
-                        RemotingHelper.DEFAULT_CHARSET));
-                // 设置消息Key
-                msg.setKeys("Num" + i);
-                // 使用事务方式发送消息
-                SendResult sendResult = producer.sendMessageInTransaction(msg, null);
-                System.out.println("sendResult = " + sendResult);
-                Thread.sleep(10);
-            } catch (MQClientException | UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-        }
-    
-        // 阻塞，目的是为了在消息发送完成后才关闭生产者
-        Thread.sleep(10000);
-        producer.shutdown();
+        transactionProduce.sendTransactionMessage(member.getId().toString(), "test-register", null);
+
+
     }
 }
