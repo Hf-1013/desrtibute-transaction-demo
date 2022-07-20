@@ -2,24 +2,21 @@ package com.quicktron.producer.service.impl;
 
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.quicktron.producer.config.TransactionProduce;
 import com.quicktron.producer.domain.Member;
 import com.quicktron.producer.dto.RegisterDTO;
-import com.quicktron.producer.listener.TransactionListenerImpl;
 import com.quicktron.producer.mapper.MemberMapper;
 import com.quicktron.producer.service.IMemberService;
-import org.apache.rocketmq.client.exception.MQClientException;
-import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.client.producer.TransactionMQProducer;
-import org.apache.rocketmq.common.message.Message;
-import org.apache.rocketmq.remoting.common.RemotingHelper;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
+import org.apache.rocketmq.spring.support.RocketMQHeaders;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.UnsupportedEncodingException;
+import java.util.UUID;
+
 
 /**
  * <p>
@@ -32,11 +29,9 @@ import java.io.UnsupportedEncodingException;
 @Service
 public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> implements IMemberService {
 
-    @Autowired
-    private RocketMQTemplate rocketMQTemplate;
 
     @Autowired
-    private TransactionProduce transactionProduce;
+    private RocketMQTemplate rocketMQTemplate;
 
 
     @Override
@@ -46,16 +41,13 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
         BeanUtils.copyProperties(registerDTO, member);
         //保存用户
         save(member);
+        String transactionId = UUID.randomUUID().toString();
         //添加优惠券，这里使用mq消息异步的方式来添加优惠券
-        TransactionMQProducer producer = new TransactionMQProducer("transaction-producer-group");
-        // 设置NameServer的地址
-        producer.setNamesrvAddr("10.0.90.211:9876");
-        // 设置事务监听器
-        producer.setTransactionListener(new TransactionListenerImpl());
-        // 启动生产者
-        producer.start();
-        transactionProduce.sendTransactionMessage(member.getId().toString(), "test-register", null);
-
+        //如果可以删除订单则发送消息给rocketmq，让用户中心消费消息
+        rocketMQTemplate.sendMessageInTransaction("add-amount","", MessageBuilder.withPayload(member)
+                .setHeader(RocketMQHeaders.TRANSACTION_ID, transactionId)
+                .setHeader("member_id",member.getId())
+                .build(), null);
 
     }
 }
