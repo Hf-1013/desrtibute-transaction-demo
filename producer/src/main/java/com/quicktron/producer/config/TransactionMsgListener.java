@@ -74,4 +74,13 @@ public class TransactionMsgListener implements RocketMQLocalTransactionListener 
         }
         return RocketMQLocalTransactionState.ROLLBACK;
     }
+
+
+    /*
+    * https://github.com/liuyangming/ByteTCC/
+    * https://queue.acm.org/detail.cfm?id=1394128
+    * https://juejin.cn/post/6844903647197806605
+    * https://juejin.cn/post/7118193660814393352
+    * https://juejin.cn/post/7119115588257087518
+    * */
 }
