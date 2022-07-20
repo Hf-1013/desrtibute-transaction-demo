@@ -12,6 +12,5 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @Builder
-@NoArgsConstructor
 public class UserLoginDTO {
 }

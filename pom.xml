@@ -11,8 +11,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.1</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <version>2.2.2.RELEASE</version>
     </parent>
     <groupId>com.quicktron</groupId>
     <artifactId>distrubute-transaction</artifactId>
@@ -22,10 +21,10 @@
     <!--版本控制-->
     <properties>
         <java.version>1.8</java.version>
-        <spring-cloud.version>Greenwich.SR2</spring-cloud.version>
-        <nacos.version>0.2.2.RELEASE</nacos.version>
+        <spring-cloud.version>Greenwich.SR3</spring-cloud.version>
+        <nacos.version>2.2.7.RELEASE</nacos.version>
         <mybatisplus.version>3.2.0</mybatisplus.version>
-        <mysql.version>8.0.25</mysql.version>
+        <mysql.version>8.0.23</mysql.version>
         <swagger.version>2.7.0</swagger.version>
         <aliyun-sdk-oss.version>3.1.0</aliyun-sdk-oss.version>
         <lombok.version>1.18.4</lombok.version>
@@ -37,6 +36,7 @@
         <joda.time.version>2.9.9</joda.time.version>
         <shiro.version>1.4.0</shiro.version>
         <validator.version>1.1.0.Final</validator.version>
+        <spring-cloud-alibaba.version>2.1.0.RELEASE</spring-cloud-alibaba.version>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
@@ -45,25 +45,24 @@
     <dependencyManagement>
         <dependencies>
             <!-- springCloud -->
+            <!-- project dependency  -->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
                 <version>${spring-cloud.version}</version>
-                <type>pom</type>
                 <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+    
+            <!-- alibaba -->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <scope>import</scope>
+                <type>pom</type>
+                <version>${spring-cloud-alibaba.version}</version>
             </dependency>
             <!-- nacos注册中心 -->
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-                <version>${nacos.version}</version>
-            </dependency>
-            <!-- nacos配置中心 -->
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
-                <version>${nacos.version}</version>
-            </dependency>
             <!-- mybatis-plus -->
             <dependency>
                 <groupId>com.baomidou</groupId>
@@ -76,23 +75,7 @@
                 <artifactId>mysql-connector-java</artifactId>
                 <version>${mysql.version}</version>
             </dependency>
-            <!--swagger-->
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger2</artifactId>
-                <version>${swagger.version}</version>
-            </dependency>
-            <!--swagger ui-->
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger-ui</artifactId>
-                <version>${swagger.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.aliyun.oss</groupId>
-                <artifactId>aliyun-sdk-oss</artifactId>
-                <version>${aliyun-sdk-oss.version}</version>
-            </dependency>
+            
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
@@ -130,16 +113,6 @@
                 <groupId>joda-time</groupId>
                 <artifactId>joda-time</artifactId>
                 <version>${joda.time.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.shiro</groupId>
-                <artifactId>shiro-core</artifactId>
-                <version>${shiro.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.shiro</groupId>
-                <artifactId>shiro-spring</artifactId>
-                <version>${shiro.version}</version>
             </dependency>
             <dependency>
                 <groupId>javax.validation</groupId>

@@ -1,3 +1,4 @@
+/*
 package com.quicktron.common.config;
 
 import com.quicktron.common.annotatiion.MqConsumer;
@@ -36,9 +37,11 @@ public class MqAutoConfiguration {
         }
     }
 
-    /**
+    */
+/**
      * 初始化消费者
-     */
+     *//*
+
     public void initMqConsumer() throws MQClientException {
         log.info("rocketMQ consumer init start count:{}", mqConsumerListenerList.size());
         for (MqConsumerListener mqConsumerListener : mqConsumerListenerList) {
@@ -65,11 +68,13 @@ public class MqAutoConfiguration {
         }
     }
 
-    /**
+    */
+/**
      * 设置默认的生产者
      *
      * @return
-     */
+     *//*
+
     @ConditionalOnMissingBean(MqProducer.class)
     @Bean
     public MqProducer initDefaultProducer() {
@@ -86,3 +91,4 @@ public class MqAutoConfiguration {
     }
 
 }
+*/

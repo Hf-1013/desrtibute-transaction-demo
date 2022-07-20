@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: kc-consumer
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 124.223.116.176:8848
+      config:
+        server-addr: 124.223.116.176:8848
+        #        file-extension: yml
+        namespace: ba1c4732-b94f-4801-af71-5463a14247e6

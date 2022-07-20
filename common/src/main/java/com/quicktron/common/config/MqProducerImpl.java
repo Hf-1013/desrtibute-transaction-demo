@@ -1,12 +1,15 @@
+/*
 package com.quicktron.common.config;
 
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
 import org.apache.rocketmq.common.message.Message;
 
+*/
 /**
  * @author gyy
  * @date 2020/10/9 2:29 下午
- */
+ *//*
+
 public class MqProducerImpl implements MqProducer {
 
     private DefaultMQProducer defaultMQProducer;
@@ -21,3 +24,4 @@ public class MqProducerImpl implements MqProducer {
         defaultMQProducer.send(message);
     }
 }
+*/
