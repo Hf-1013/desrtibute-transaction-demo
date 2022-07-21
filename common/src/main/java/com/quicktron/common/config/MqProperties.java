@@ -1,3 +1,4 @@
+/*
 package com.quicktron.common.config;
 
 import lombok.Data;
@@ -11,4 +12,4 @@ public class MqProperties {
     private String nameServerAddr;
 
     private String producerGroup;
-}
+}*/

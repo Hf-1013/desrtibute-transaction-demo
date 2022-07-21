@@ -5,7 +5,7 @@ package com.quicktron.common.config;
 /**
  * @author gyy
  * @date 2020/10/9 2:28 下午
- *//*
+*//*
 
 public interface MqProducer {
 
