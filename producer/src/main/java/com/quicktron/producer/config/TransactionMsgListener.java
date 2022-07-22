@@ -16,7 +16,7 @@ import org.springframework.messaging.MessageHeaders;
 
 import java.nio.charset.StandardCharsets;
 
-@RocketMQTransactionListener
+@RocketMQTransactionListener(txProducerGroup = "add-amount")
 @Slf4j
 public class TransactionMsgListener implements RocketMQLocalTransactionListener {
 

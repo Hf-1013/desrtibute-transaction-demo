@@ -6,6 +6,7 @@ import com.quicktron.producer.domain.Member;
 import com.quicktron.producer.dto.RegisterDTO;
 import com.quicktron.producer.mapper.MemberMapper;
 import com.quicktron.producer.service.IMemberService;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.rocketmq.client.producer.TransactionMQProducer;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.apache.rocketmq.spring.support.RocketMQHeaders;
@@ -44,7 +45,7 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
         String transactionId = UUID.randomUUID().toString();
         //添加优惠券，这里使用mq消息异步的方式来添加优惠券
         //如果可以删除订单则发送消息给rocketmq，让用户中心消费消息
-        rocketMQTemplate.sendMessageInTransaction("add-amount","", MessageBuilder.withPayload(member)
+        rocketMQTemplate.sendMessageInTransaction("add-amount","register", MessageBuilder.withPayload(member)
                 .setHeader(RocketMQHeaders.TRANSACTION_ID, transactionId)
                 .setHeader("member_id",member.getId())
                 .build(), null);
