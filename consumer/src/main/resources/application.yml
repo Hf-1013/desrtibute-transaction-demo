@@ -2,7 +2,7 @@ server:
   port: 8082
 
 rocketmq:
-  name-server: 172.31.217.42:9876
+  name-server: 172.31.239.163:9876
   producer:
     group: default
 

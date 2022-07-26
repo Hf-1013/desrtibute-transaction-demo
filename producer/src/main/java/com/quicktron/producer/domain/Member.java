@@ -1,10 +1,8 @@
 package com.quicktron.producer.domain;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.*;
+
 import java.time.LocalDate;
-import com.baomidou.mybatisplus.annotation.Version;
-import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import java.io.Serializable;
 
@@ -117,6 +115,7 @@ public class Member implements Serializable {
     /**
      * 启用状态
      */
+    @TableLogic(delval = "0",value = "1")
     private Integer status;
 
     /**

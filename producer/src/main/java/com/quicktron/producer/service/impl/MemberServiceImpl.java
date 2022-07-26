@@ -1,6 +1,7 @@
 package com.quicktron.producer.service.impl;
 
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quicktron.producer.domain.Member;
 import com.quicktron.producer.dto.RegisterDTO;
@@ -40,14 +41,15 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
     public void registerByTel(RegisterDTO registerDTO) throws Exception {
         Member member = new Member();
         BeanUtils.copyProperties(registerDTO, member);
+        member.setStatus(0);
         //保存用户
         save(member);
         String transactionId = UUID.randomUUID().toString();
         //添加优惠券，这里使用mq消息异步的方式来添加优惠券
         //如果可以删除订单则发送消息给rocketmq，让用户中心消费消息
-        rocketMQTemplate.sendMessageInTransaction("add-amount","register", MessageBuilder.withPayload(member)
+        rocketMQTemplate.sendMessageInTransaction("add-amount", "register", MessageBuilder.withPayload(JSONObject.toJSONString(member))
                 .setHeader(RocketMQHeaders.TRANSACTION_ID, transactionId)
-                .setHeader("member_id",member.getId())
+                .setHeader("member_id", member.getId())
                 .build(), null);
 
     }

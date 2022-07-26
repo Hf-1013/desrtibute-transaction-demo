@@ -33,15 +33,20 @@ public class TransactionMsgListener implements RocketMQLocalTransactionListener 
     @Override
     public RocketMQLocalTransactionState executeLocalTransaction(Message msg,
                                                                  Object obj) {
-        log.info("执行本地事务");
-        MessageHeaders headers = msg.getHeaders();
-        //获取事务ID
-        String transactionId = (String) headers.get(RocketMQHeaders.TRANSACTION_ID);
-        Integer orderId = Integer.valueOf((String)headers.get("order_id"));
-        log.info("transactionId is {}, orderId is {}",transactionId,orderId);
-        Member member = (Member) msg.getPayload();
-        member.setStatus(1);
+
         try{
+            log.info("执行本地事务");
+            MessageHeaders headers = msg.getHeaders();
+            log.info("headers:{}, msg:{}", headers.toString(), msg);
+            //获取事务ID
+            String transactionId = (String) headers.get(RocketMQHeaders.TRANSACTION_ID);
+            Object payload = msg.getPayload();
+            log.info("obj:{}", obj);
+            log.info("payload:{}", payload);
+            Member member = new Member();
+            member.setStatus(1);
+            Long member_id = (Long) headers.get("member_id");
+            member.setId(member_id);
             //执行本地事务，并记录日志
             memberService.updateById(member);
             rocketMqTransactionLogMapper.insert(

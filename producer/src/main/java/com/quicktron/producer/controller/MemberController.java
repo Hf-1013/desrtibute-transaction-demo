@@ -6,6 +6,8 @@ import com.quicktron.producer.dto.CommonResponse;
 import com.quicktron.producer.dto.RegisterDTO;
 import com.quicktron.producer.dto.UserLoginDTO;
 import com.quicktron.producer.service.IMemberService;
+import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,6 +43,13 @@ public class MemberController {
         return CommonResponse.success();
     }
 
+    public static void main(String[] args) {
+        String s = "   \\\"  sjdkalsjd  \", \"  asdasd  \"   ";
+        String s1 = StringEscapeUtils.unescapeJava(StringUtils.trim(s));
+        System.out.println(s);
+        System.out.println(s1);
+
+    }
 
 }
 
