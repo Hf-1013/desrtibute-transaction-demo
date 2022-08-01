@@ -38,18 +38,10 @@ public class MemberController {
     }
 
     @PostMapping("/register-by-tel")
-    public CommonResponse<Object> registerByTel(@RequestBody @Validated RegisterDTO registerDTO) throws Exception {
-        memberService.registerByTel(registerDTO);
-        return CommonResponse.success();
+    public CommonResponse<Boolean> registerByTel(@RequestBody @Validated RegisterDTO registerDTO) throws Exception {
+        return CommonResponse.success(memberService.registerByTel(registerDTO));
     }
 
-    public static void main(String[] args) {
-        String s = "   \\\"  sjdkalsjd  \", \"  asdasd  \"   ";
-        String s1 = StringEscapeUtils.unescapeJava(StringUtils.trim(s));
-        System.out.println(s);
-        System.out.println(s1);
-
-    }
 
 }
 

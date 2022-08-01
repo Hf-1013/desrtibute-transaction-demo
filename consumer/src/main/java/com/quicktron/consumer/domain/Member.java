@@ -1,12 +1,13 @@
-package com.quicktron.producer.domain;
+package com.quicktron.consumer.domain;
 
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.*;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.io.Serializable;
-
-import lombok.*;
 
 /**
  * <p>

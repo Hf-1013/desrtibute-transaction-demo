@@ -8,7 +8,9 @@ import com.quicktron.producer.dto.RegisterDTO;
 import com.quicktron.producer.mapper.MemberMapper;
 import com.quicktron.producer.service.IMemberService;
 import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.rocketmq.client.producer.LocalTransactionState;
 import org.apache.rocketmq.client.producer.TransactionMQProducer;
+import org.apache.rocketmq.client.producer.TransactionSendResult;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.apache.rocketmq.spring.support.RocketMQHeaders;
 import org.springframework.beans.BeanUtils;
@@ -38,7 +40,8 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void registerByTel(RegisterDTO registerDTO) throws Exception {
+    public Boolean registerByTel(RegisterDTO registerDTO) throws Exception {
+        //校验用户  省略。。。
         Member member = new Member();
         BeanUtils.copyProperties(registerDTO, member);
         member.setStatus(0);
@@ -47,10 +50,14 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
         String transactionId = UUID.randomUUID().toString();
         //添加优惠券，这里使用mq消息异步的方式来添加优惠券
         //如果可以删除订单则发送消息给rocketmq，让用户中心消费消息
-        rocketMQTemplate.sendMessageInTransaction("add-amount", "register", MessageBuilder.withPayload(JSONObject.toJSONString(member))
+        TransactionSendResult transactionSendResult = rocketMQTemplate.sendMessageInTransaction("register", "register",
+                MessageBuilder.withPayload(JSONObject.toJSONString(member))
                 .setHeader(RocketMQHeaders.TRANSACTION_ID, transactionId)
                 .setHeader("member_id", member.getId())
                 .build(), null);
-
+        if(!LocalTransactionState.COMMIT_MESSAGE.equals(transactionSendResult.getLocalTransactionState())){
+            return Boolean.FALSE;
+        }
+        return Boolean.TRUE;
     }
 }

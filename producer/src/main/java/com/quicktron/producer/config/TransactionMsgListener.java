@@ -16,7 +16,7 @@ import org.springframework.messaging.MessageHeaders;
 
 import java.nio.charset.StandardCharsets;
 
-@RocketMQTransactionListener(txProducerGroup = "add-amount")
+@RocketMQTransactionListener(txProducerGroup = "register")
 @Slf4j
 public class TransactionMsgListener implements RocketMQLocalTransactionListener {
 
@@ -35,6 +35,7 @@ public class TransactionMsgListener implements RocketMQLocalTransactionListener 
                                                                  Object obj) {
 
         try{
+            //该listener会等待接口同步执行
             log.info("执行本地事务");
             MessageHeaders headers = msg.getHeaders();
             log.info("headers:{}, msg:{}", headers.toString(), msg);
@@ -45,7 +46,7 @@ public class TransactionMsgListener implements RocketMQLocalTransactionListener 
             log.info("payload:{}", payload);
             Member member = new Member();
             member.setStatus(1);
-            Long member_id = (Long) headers.get("member_id");
+            Long member_id = Long.valueOf((String) headers.get("member_id"));
             member.setId(member_id);
             //执行本地事务，并记录日志
             memberService.updateById(member);

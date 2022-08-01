@@ -11,7 +11,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  */
 @SpringBootApplication
 @EnableDiscoveryClient
-@MapperScan(basePackages = "com.quicktron.producer.mapper")
+@MapperScan(basePackages = "com.quicktron.consumer.mapper")
 public class ConsumerApplication {
 
     public static void main(String[] args) {
