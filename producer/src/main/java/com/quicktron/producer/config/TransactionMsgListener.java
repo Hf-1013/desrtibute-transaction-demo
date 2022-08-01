@@ -42,8 +42,6 @@ public class TransactionMsgListener implements RocketMQLocalTransactionListener 
             //获取事务ID
             String transactionId = (String) headers.get(RocketMQHeaders.TRANSACTION_ID);
             Object payload = msg.getPayload();
-            log.info("obj:{}", obj);
-            log.info("payload:{}", payload);
             Member member = new Member();
             member.setStatus(1);
             Long member_id = Long.valueOf((String) headers.get("member_id"));

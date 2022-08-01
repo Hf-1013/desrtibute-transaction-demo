@@ -37,6 +37,9 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
     @Autowired
     private RocketMQTemplate rocketMQTemplate;
 
+    @Autowired
+    private MemberMapper memberMapper;
+
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -46,7 +49,7 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
         BeanUtils.copyProperties(registerDTO, member);
         member.setStatus(0);
         //保存用户
-        save(member);
+        memberMapper.insert(member);
         String transactionId = UUID.randomUUID().toString();
         //添加优惠券，这里使用mq消息异步的方式来添加优惠券
         //如果可以删除订单则发送消息给rocketmq，让用户中心消费消息
@@ -56,7 +59,7 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
                 .setHeader("member_id", member.getId())
                 .build(), null);
         if(!LocalTransactionState.COMMIT_MESSAGE.equals(transactionSendResult.getLocalTransactionState())){
-            return Boolean.FALSE;
+            throw new RuntimeException("注册失败...");
         }
         return Boolean.TRUE;
     }
