@@ -1,4 +1,4 @@
-package com.quicktron.producer.dto;
+package com.quicktron.common.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
-import static com.quicktron.producer.dto.ResponseCodeConstants.SUCCESS_CODE;
 
 
 /**
@@ -31,10 +30,10 @@ public class CommonResponse<T> {
     }
 
     public static <T> CommonResponse<T> success(T data){
-        return new CommonResponse<>(data).setCode(SUCCESS_CODE);
+        return new CommonResponse<>(data).setCode(ResponseCodeConstants.SUCCESS_CODE);
     }
-
-    public static CommonResponse<Object> success(){
-        return new CommonResponse<>(new Object()).setCode(SUCCESS_CODE);
+    
+    public Boolean isSuccess(){
+        return ResponseCodeConstants.SUCCESS_CODE.equals(this.code);
     }
 }

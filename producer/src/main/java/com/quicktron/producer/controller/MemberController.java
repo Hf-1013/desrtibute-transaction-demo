@@ -2,12 +2,10 @@ package com.quicktron.producer.controller;
 
 
 
-import com.quicktron.producer.dto.CommonResponse;
+import com.quicktron.common.dto.CommonResponse;
 import com.quicktron.producer.dto.RegisterDTO;
 import com.quicktron.producer.dto.UserLoginDTO;
 import com.quicktron.producer.service.IMemberService;
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,9 +37,10 @@ public class MemberController {
 
     @PostMapping("/register-by-tel")
     public CommonResponse<Boolean> registerByTel(@RequestBody @Validated RegisterDTO registerDTO) throws Exception {
-        return CommonResponse.success(memberService.registerByTel(registerDTO));
+        return CommonResponse.success(memberService.registerByTelWithWithSyncCall(registerDTO));
+        // return CommonResponse.success(memberService.registerByTelWithRocketMqTx(registerDTO));
     }
 
-
+    
 }
 

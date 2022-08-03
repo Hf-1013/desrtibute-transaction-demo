@@ -15,5 +15,7 @@ import com.quicktron.producer.dto.RegisterDTO;
  */
 public interface IMemberService extends IService<Member> {
 
-    Boolean registerByTel(RegisterDTO registerDTO) throws Exception;
+    Boolean registerByTelWithRocketMqTx(RegisterDTO registerDTO) throws Exception;
+    
+    Boolean registerByTelWithWithSyncCall(RegisterDTO registerDTO);
 }

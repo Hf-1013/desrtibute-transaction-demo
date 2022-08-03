@@ -1,4 +1,4 @@
-package com.quicktron.producer.dto;
+package com.quicktron.common.dto;
 
 /**
  * @Author houfeng
